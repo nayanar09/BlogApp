@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/addImageID"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:scaleType="center"
+            android:src="@drawable/baseline_add_a_photo_black_48" />
+
+        <TextView
+            android:id="@+id/postTitleList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/postTitle"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/addImageID" />
+
+        <TextView
+            android:id="@+id/postDescList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/postDesc"
+            android:padding="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            app:layout_constraintTop_toBottomOf="@+id/postTitleList" />
+
+        <TextView
+            android:id="@+id/postTimeStampList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/postDate"
+            android:padding="10dp"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintTop_toBottomOf="@+id/postDescList" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightBlue"
+    tools:context=".Activities.PostDetailActivity">
+
+    <ImageView
+        android:id="@+id/postImageID"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="center"
+        android:src="@drawable/baseline_add_a_photo_black_48" />
+
+    <TextView
+        android:id="@+id/postTitleID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/postTitle"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/postImageID" />
+
+    <TextView
+        android:id="@+id/postDescriptionID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/postDesc"
+        android:padding="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/postTitleID" />
+
+    <TextView
+        android:id="@+id/postTimeStampID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/postDate"
+        android:padding="10dp"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@+id/postDescriptionID" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
