@@ -1,5 +1,6 @@
 package com.nayana.example.blogapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,9 +16,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,6 +42,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private ProgressDialog mProgressDialog;
     private static final int PROFILE_PIC_CODE = 1;
 
@@ -61,6 +65,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Blog_Users");
         mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
         mProgressDialog = new ProgressDialog(this);
 
         storageReference = FirebaseStorage.getInstance().getReference().child("Blog_users_profilePics");
@@ -160,28 +165,17 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 finish();
                             }
                         });
-
-                        /*
-                        String userID = mAuth.getCurrentUser().getUid();
-
-                        DatabaseReference currentUserDB = databaseReference.child(userID);
-                        currentUserDB.child("firstName : ").setValue(firstname);
-                        currentUserDB.child("lastName : ").setValue(lastname);
-                        currentUserDB.child("image").setValue("default");
-
-                        mProgressDialog.dismiss();
-
-                        //send users to PostListActivity
-                        Intent intent = new Intent( CreateAccountActivity.this , PostListActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //If set, and the activity being launched is already running in the current task, then instead of launching a new instance of that activity, all of the other activities on top of it will be closed and this Intent will be delivered to the (now on top) old activity as a new Intent.
-                        startActivity(intent);
-                        finish();*/
                     }
                     else
                     {
-                        Toast.makeText( CreateAccountActivity.this , "Problem creating Account", Toast.LENGTH_LONG).show();
+                        Toast.makeText( CreateAccountActivity.this , "User not authorised to create account", Toast.LENGTH_LONG).show();
                     }
 
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText( CreateAccountActivity.this , "Problem creating Account", Toast.LENGTH_LONG).show();
                 }
             });
         }else

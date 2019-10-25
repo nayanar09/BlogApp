@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,22 +69,21 @@ public class PostListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Blog blog = dataSnapshot.getValue(Blog.class);
-                postBlogList.add(blog);
+                    Blog blog = dataSnapshot.getValue(Blog.class);
+                    postBlogList.add(blog);
 
-                Log.d( "PostListActivity" ,
-                        "PostTitle() : "+ blog.getPostTitle()
-                                +" PostDescription() : "+ blog.getPostDescription()
-                                +" Timestamp() : "+ blog.getTimestamp()
-                                +" UserID() : "+ blog.getUserID()
-                                +" PostImage() : "+ blog.getPostImage() );
+                    Log.d( "PostListActivity" ,
+                            "PostTitle() : "+ blog.getPostTitle()
+                                    +" PostDescription() : "+ blog.getPostDescription()
+                                    +" Timestamp() : "+ blog.getTimestamp()
+                                    +" UserID() : "+ blog.getUserID()
+                                    +" PostImage() : "+ blog.getPostImage() );
 
-                Collections.reverse(postBlogList);
+                    Collections.reverse(postBlogList);
 
-                blogRecyclerViewAdapter = new BlogRecyclerViewAdapter( PostListActivity.this , postBlogList);
-                recyclerView.setAdapter(blogRecyclerViewAdapter);
-                blogRecyclerViewAdapter.notifyDataSetChanged();
-
+                    blogRecyclerViewAdapter = new BlogRecyclerViewAdapter( PostListActivity.this , postBlogList);
+                    recyclerView.setAdapter(blogRecyclerViewAdapter);
+                    blogRecyclerViewAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -104,6 +104,7 @@ public class PostListActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                Toast.makeText(getApplicationContext() , "Error :"+databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

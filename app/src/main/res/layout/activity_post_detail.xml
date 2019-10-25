@@ -4,17 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBlue"
+    android:background="@color/offWhite"
     tools:context=".Activities.PostDetailActivity">
+
+    <TextView
+        android:id="@+id/postTextView"
+        android:layout_width="219dp"
+        android:layout_height="28dp"
+        android:paddingLeft="10dp"
+        android:text="@string/postDetails"
+        android:textColor="#E91E63"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postTimeStampID"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/DetEditButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="84dp"
+        android:background="@android:drawable/ic_menu_edit"
+        android:paddingLeft="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/postTextView"
+        app:layout_constraintStart_toEndOf="@+id/postTextView"
+        app:layout_constraintTop_toTopOf="@+id/postTextView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/DetDeleteButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/ic_delete"
+        android:paddingLeft="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/DetEditButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/DetEditButton"
+        app:layout_constraintTop_toTopOf="@+id/DetEditButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/postImageID"
         android:layout_width="match_parent"
         android:layout_height="350dp"
+        android:layout_marginBottom="248dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="center"
-        android:src="@drawable/baseline_add_a_photo_black_48" />
+        android:src="@drawable/baseline_add_a_photo_black_48"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.729" />
 
     <TextView
         android:id="@+id/postTitleID"
@@ -24,7 +71,19 @@
         android:padding="10dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/postImageID" />
+        app:layout_constraintTop_toBottomOf="@+id/postImageID"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/postTimeStampID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/postDate"
+        android:padding="10dp"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@+id/postDescriptionID"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/postDescriptionID"
@@ -36,16 +95,7 @@
         android:paddingRight="15dp"
         android:textSize="14sp"
         android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@+id/postTitleID" />
-
-    <TextView
-        android:id="@+id/postTimeStampID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/postDate"
-        android:padding="10dp"
-        android:textSize="12sp"
-        android:textStyle="normal"
-        app:layout_constraintTop_toBottomOf="@+id/postDescriptionID" />
+        app:layout_constraintTop_toBottomOf="@+id/postTitleID"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,4 +13,5 @@
     <color name="Green">#00D44E</color>
     <color name="Black">#090909</color>
     <color name="White">#FAF8F8</color>
+    <color name="offWhite">#DDD1D1</color>
 </resources>

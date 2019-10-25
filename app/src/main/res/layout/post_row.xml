@@ -17,7 +17,7 @@
             android:layout_height="350dp"
             android:adjustViewBounds="true"
             android:cropToPadding="false"
-            android:scaleType="center"
+            android:scaleType="fitXY"
             android:src="@drawable/baseline_add_a_photo_black_48" />
 
         <TextView

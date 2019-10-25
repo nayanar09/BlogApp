@@ -1,5 +1,6 @@
 package com.nayana.example.blogapp.Data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nayana.example.blogapp.Activities.PostDetailActivity;
 import com.nayana.example.blogapp.Model.Blog;
 import com.nayana.example.blogapp.R;
@@ -44,6 +47,7 @@ public class BlogRecyclerViewAdapter extends RecyclerView.Adapter<BlogRecyclerVi
         return new ViewHolder(view , context);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -60,10 +64,10 @@ public class BlogRecyclerViewAdapter extends RecyclerView.Adapter<BlogRecyclerVi
         holder.timeStamp.setText(formattedDate);
 
         imageURL = blog.getPostImage();
-        Log.i( "BlogRecyclerViewAdapter : IMAGE URL : " , blog.getPostImage());
+        Log.i( "BlogRecyclerViewAdapter : IMAGE URL : " , imageURL);
 
         //TODO : use picasso library to load image
-        //Picasso.with(context).load(blog.getPostImage()).into(holder.image);
+        //Picasso.with(context).load(imageURL).into(holder.image);
 
         //https://square.github.io/picasso/
             /*
@@ -74,24 +78,23 @@ public class BlogRecyclerViewAdapter extends RecyclerView.Adapter<BlogRecyclerVi
                 Picasso.get().load(new File(...)).into(imageView3);
             * */
 
-        Log.d(" blogRVA : imageURL ", imageURL);
 
-        Picasso.get()
+        Picasso.with(context)
                 .load(imageURL)
+                .placeholder(R.mipmap.ic_launcher_round)
+                .fit()
+                .centerCrop()
                 .into(holder.image); //with(context) replaced with get()
-        //Picasso.get().load(R.drawable.brahmakamala).into(holder.image);
-
-        Log.d("blogRVA imageURL after loading ", imageURL);
     }
 
     @Override
     public int getItemCount() {
 
-        Log.i( " blogRVA : blogList.size() " , String.valueOf(blogList.size()));
+        //Log.i( " blogRVA : blogList.size() " , String.valueOf(blogList.size()));
         return blogList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder  {
 
         public TextView title;
         public TextView description;
@@ -133,8 +136,6 @@ public class BlogRecyclerViewAdapter extends RecyclerView.Adapter<BlogRecyclerVi
                     ctx.startActivity(intent);
                 }
             });
-
-
         }
     }
 }

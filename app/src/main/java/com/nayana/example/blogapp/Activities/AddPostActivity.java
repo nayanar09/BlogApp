@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -121,9 +122,6 @@ public class AddPostActivity extends AppCompatActivity {
 
     private void startPosting() {
 
-        //mProgress.setMessage("Posting to Blog....");
-        //mProgress.show();
-
         final String titleVal = addTitle.getText().toString().trim();
         final String descVal = addDesc.getText().toString().trim();
 
@@ -149,50 +147,56 @@ public class AddPostActivity extends AppCompatActivity {
             final StorageReference filepath = storageReference.child("Blog_images") //creates "Blog_images" folder in storage to store images
                     .child(mImageUri.getLastPathSegment()); //mImageUri.getLastPathSegment() == /image/apple.jpeg URL or path of the image that is added
 
-            filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                filepath.putFile(mImageUri)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    //Uri downloadUrl = taskSnapshot.getDownloadUrl(); //getDownloadUrl() replaced with taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                    //Task<Uri> downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    //StorageReference downloadUrl = taskSnapshot.getMetadata().getReference();
-                    //Task<Uri> downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    //String downloadUrl = filepath.getDownloadUrl().toString();
-                    Task<Uri> downloadUrl = filepath.getDownloadUrl();
+                                //Uri downloadUrl = taskSnapshot.getDownloadUrl(); //getDownloadUrl() replaced with taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                                Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
 
-                    Log.d( "AddPostActivity : url " , downloadUrl.toString());
+                                while ( !downloadUrl.isSuccessful());
 
-                    DatabaseReference newPost = mPostReference.push(); //creates new instance id for every post
-                    /*old way to upload to database
-                        newPost.setValue(blog);
-                        newPost.child("postImage").setValue(downloadUrl.toString());
-                        newPost.child("postTitle").setValue(titleVal);
-                        newPost.child("postDescription").setValue(descVal);
-                        newPost.child("userID").setValue(mUser.getUid());
-                        newPost.child("timestamp").setValue(String.valueOf(java.lang.System.currentTimeMillis()));*/
+                                Uri downloadUri = downloadUrl.getResult();
 
-                    HashMap<String,String> dataToSave = new HashMap<>();
+                                Log.d( "AddPostActivity : url " , downloadUrl.toString());
 
-                    dataToSave.put("postImage" , downloadUrl.toString());
-                    dataToSave.put("postTitle" , titleVal);
-                    dataToSave.put("postDescription" , descVal);
-                    dataToSave.put("userID" , mUser.getUid());
-                    dataToSave.put("userEmail" , mUser.getEmail());
-                    dataToSave.put("userName" , mUser.getDisplayName());
-                    dataToSave.put("timestamp" , String.valueOf(java.lang.System.currentTimeMillis()));
+                                DatabaseReference newPost = mPostReference.push(); //creates new instance id for every post
+                                /*old way to upload to database
+                                    newPost.setValue(blog);
+                                    newPost.child("postImage").setValue(downloadUrl.toString());
+                                    newPost.child("postTitle").setValue(titleVal);
+                                    newPost.child("postDescription").setValue(descVal);
+                                    newPost.child("userID").setValue(mUser.getUid());
+                                    newPost.child("timestamp").setValue(String.valueOf(java.lang.System.currentTimeMillis()));*/
 
-                    newPost.setValue(dataToSave);
-                    mProgress.dismiss();
+                                HashMap<String,String> dataToSave = new HashMap<>();
 
-                    Toast.makeText( AddPostActivity.this , "post added" , Toast.LENGTH_LONG).show();
-                    startActivity(new Intent( AddPostActivity.this , PostListActivity.class));
-                    finish();
-                }
-            });
-        }
-        else {
-            Toast.makeText( AddPostActivity.this , "Problem adding post", Toast.LENGTH_LONG).show();
-            Toast.makeText( AddPostActivity.this , "Enter all fields", Toast.LENGTH_LONG).show();
-        }
+                                dataToSave.put("postImage" , downloadUri.toString());
+                                dataToSave.put("postTitle" , titleVal);
+                                dataToSave.put("postDescription" , descVal);
+                                dataToSave.put("userID" , mUser.getUid());
+                                dataToSave.put("userEmail" , mUser.getEmail());
+                                dataToSave.put("userName" , mUser.getUid());
+                                dataToSave.put("timestamp" , String.valueOf(java.lang.System.currentTimeMillis()));
+
+                                newPost.setValue(dataToSave);
+                                mProgress.dismiss();
+
+                                Toast.makeText( AddPostActivity.this , "post added" , Toast.LENGTH_LONG).show();
+                                startActivity(new Intent( AddPostActivity.this , PostListActivity.class));
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Toast.makeText( AddPostActivity.this , "Problem adding post", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+            else {
+                Toast.makeText( AddPostActivity.this , "Enter all fields", Toast.LENGTH_LONG).show();
+            }
     }
 }
